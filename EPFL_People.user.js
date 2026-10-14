@@ -55,7 +55,7 @@ $(document).ready(async () => {
       // Wait for the results element with class '.list-unstyled'
       waitForEl('.list-unstyled', async () => {
         // For each results
-        $('h3[class=h3] > a[class=result]').each(function(index, value) {
+        $('div[class=result] > h3 > a').each(function(index, value) {
           // Find the email (not all users have one, but for now it's the quickest way to get a unique identifier)
           let usrEmail = $(this).parents('div[class=result]').find('a').last().html()
           // Lookup in users which entry match this email
