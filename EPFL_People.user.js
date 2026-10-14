@@ -119,7 +119,7 @@ $(document).ready(async () => {
     const user = users[0]
     // console.debug(user)
     const sciper = user.sciper
-    const username = $('dt:contains("Username")').next('dd').html()
+    const username = $('dt:contains("Username"),dt:contains("Nom d\'utilisateur")').next('dd').html()
 
     // Modify the main title adding sciper
     $('h1:not(.site-title)').text((i,ori) => {
