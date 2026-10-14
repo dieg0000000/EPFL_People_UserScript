@@ -9,6 +9,8 @@
 // @include     https://personnes.epfl.ch/*
 // @include     https://search.epfl.ch/?filter=people&*
 // @require     https://code.jquery.com/jquery-3.5.1.min.js
+// @grant       GM_xmlhttpRequest
+// @connect     people.epfl.ch
 // @downloadURL https://raw.githubusercontent.com/ponsfrilus/EPFL_People_UserScript/master/EPFL_People.user.js
 // ==/UserScript==
 
@@ -36,6 +38,22 @@ $(document).ready(async () => {
     return result
   }
 
+  // Async function to get the picture url from the people page (not in search-api, and CORS blocks a direct request)
+  const getPictureFromPeoplePage = function (profileUrl) {
+    return new Promise((resolve) => {
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: profileUrl,
+        onload: (res) => {
+          let doc = new DOMParser().parseFromString(res.responseText, 'text/html')
+          let src = $(doc).find('img[src*="/rails/active_storage/"]').attr('src')
+          resolve(src ? new URL(src, 'https://people.epfl.ch').href : undefined)
+        },
+        onerror: () => resolve(undefined)
+      })
+    })
+  }
+
   const waitForEl = function (selector, callback) {
     if ($(selector).length) {
       callback()
@@ -55,7 +73,7 @@ $(document).ready(async () => {
       // Wait for the results element with class '.list-unstyled'
       waitForEl('.list-unstyled', async () => {
         // For each results
-        $('div[class=result] > h3 > a').each(function(index, value) {
+        $('div[class=result] > h3 > a').each(async function(index, value) {
           // Find the email (not all users have one, but for now it's the quickest way to get a unique identifier)
           let usrEmail = $(this).parents('div[class=result]').find('a').last().html()
           // Lookup in users which entry match this email
@@ -74,8 +92,8 @@ $(document).ready(async () => {
             $(this).after(' <span class="sciperID">#' + usrObj.sciper + ' </span>')
           }
 
-          let userPictureUrl = `https://people.epfl.ch/private/common/photos/links/${usrObj.sciper}.jpg?ts=${Date.now()}`
-          let imageElement = `<img id="pic${usrObj.sciper}" class="userPic" alt="" src="${userPictureUrl}" style="width:100%;max-width:37px" />`
+          let userPictureUrl = await getPictureFromPeoplePage($(this).attr('href'))
+          let imageElement = `<img id="pic${usrObj.sciper}" class="userPic" alt="" src="${userPictureUrl}" style="width:100%;max-width:60px" />`
           $(this).parents('h3').html((i,ori) => {
             return `${imageElement} ${ori}`
           })
