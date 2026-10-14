@@ -106,12 +106,10 @@ $(document).ready(async () => {
   if (document.URL.includes('https://people.epfl.ch/') || document.URL.includes('https://personnes.epfl.ch/')) {
     console.log('Mode: details')
 
-    let adminDataLink = $('a:contains("Administrative data"),a:contains("Données administratives")')
+    let adminDataLink = $('summary:contains("Administrative data"),summary:contains("Données administratives")')
     if (adminDataLink.length) {
       adminDataLink[0].click()
     }
-    // Comfort, open admindata by default
-    unsafeWindow.toggleVis('admin-data')
 
     const name = $('h1#name').text()
     const sex = ($('h1#name').attr('class').includes('pnf')) ? '♀' : '♂'
