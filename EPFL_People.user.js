@@ -111,8 +111,7 @@ $(document).ready(async () => {
       adminDataLink[0].click()
     }
 
-    const name = $('h1#name').text()
-    const sex = ($('h1#name').attr('class').includes('pnf')) ? '♀' : '♂'
+    const name = $('h1:not(.site-title)').text().trim()
     const users = await getPeopleFromSearchAPI(name)
     if (users.length != 1) {
       console.error(`⚠ Watchout: ${((users.length > 1) ? 'more than one user' : 'no user')} found!`)
@@ -122,9 +121,9 @@ $(document).ready(async () => {
     const sciper = user.sciper
     const username = $('dt:contains("Username")').next('dd').html()
 
-    // Modify the main title adding sex and sciper
-    $('h1#name').text((i,ori) => {
-      return `${sex} ${ori} #${sciper}`
+    // Modify the main title adding sciper
+    $('h1:not(.site-title)').text((i,ori) => {
+      return `${ori} #${sciper}`
     })
 
     // Create a new div to host specific content of this script
