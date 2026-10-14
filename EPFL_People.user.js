@@ -138,7 +138,7 @@ $(document).ready(async () => {
     for (accred in user.accreds) {
       if (user.accreds[accred].officeList.length) {
         for (office of user.accreds[accred].officeList) {
-          $(`#collapse-${accred}`).append(`<div><iframe id="userScript${accred}" height="350px" width="100%" src="https://plan.epfl.ch/iframe/?room==${office}&map_zoom=10"></iframe></div>`)
+          $('[id^="collapse-"]').eq(accred).append(`<div><iframe id="userScript${accred}" height="350px" width="100%" src="https://plan.epfl.ch/iframe/?room==${office}&map_zoom=10"></iframe></div>`)
         }
       }
     }
