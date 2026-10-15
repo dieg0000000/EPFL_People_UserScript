@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        EPFL People
-// @version     1.9.0
+// @version     1.10.0
 // @description A script to improve browsing on people.epfl.ch
 // @author      EPFL-dojo
 // @namespace   EPFL-dojo
