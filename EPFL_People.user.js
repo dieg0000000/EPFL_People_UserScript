@@ -146,7 +146,7 @@ $(document).ready(async () => {
 
     // Create a new div to host specific content of this script
     $('.container:first > div > h1.mr-3').css('margin-bottom', '0px')
-    $('<div class="d-flex flex-wrap justify-content-between align-items-baseline" id="EPFLPeopleUserScriptData"></div>').insertAfter('.container:first div:first')
+    $('<div class="d-flex flex-wrap justify-content-between align-items-baseline" id="EPFLPeopleUserScriptData"></div>').insertBefore('h1:not(.site-title)')
     $('#EPFLPeopleUserScriptData').css('font-family', 'monospace')
     $('#EPFLPeopleUserScriptData').css('white-space', 'pre')
     $('#EPFLPeopleUserScriptData').append('<div>sciper: ' + sciper + '</div>')
